@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/color_constant.dart';
-
+import '../utils/color_constant.dart';
 
 Widget customTextField(text) {
   return Column(

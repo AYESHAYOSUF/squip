@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:squip/ambulance_request_captain/ambulance_request_captain_view_model.dart';
+import 'package:squip/fire_request_captain/fire_request_captain_view_model.dart';
+import 'package:squip/all_request_captain/all_request_captain_view_model.dart';
 import 'package:squip/custom_widgets/app_bar.dart';
 import 'package:squip/custom_widgets/profile_list_tile.dart';
-import 'package:squip/screens/user_side/active_services_user/active_services_user_view_model.dart';
 import 'package:squip/utils/color_constant.dart';
-import 'package:squip/utils/image_constant.dart';
 import 'package:stacked/stacked.dart';
 
-class ActiveServiceView extends StatelessWidget {
+class FireRequestCaptainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ActiveServiceViewModel>.reactive(
-        viewModelBuilder: () => ActiveServiceViewModel(),
+    return ViewModelBuilder<FireRequestCaptainViewModel>.reactive(
+        onViewModelReady: (viewModel) {
+          viewModel.getRequests();
+        },
+        viewModelBuilder: () => FireRequestCaptainViewModel(),
         builder: (context, viewModel, child) => Scaffold(
-              appBar: customerAppBar("Active Services"),
+              appBar: customerAppBar("All Requests"),
               body: FutureBuilder(
-                future: viewModel.getActiveRequest(),
+                future: viewModel.getRequests(),
                 builder: ((context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
@@ -22,8 +26,11 @@ class ActiveServiceView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return ListTile(
                           title: Text(snapshot.data.docs[index]["emergency"]),
-                          trailing: IconButton(
-                              onPressed: () {}, icon: Icon(Icons.add_circle)),
+                          subtitle: Text(snapshot.data.docs[index]["name"]),
+                          trailing: Text(
+                            ((snapshot.data.docs[index]["date"]).toString()),
+                            style: TextStyle(fontSize: 14),
+                          ),
                         );
                       },
                     );
@@ -32,6 +39,7 @@ class ActiveServiceView extends StatelessWidget {
                   }
                 }),
               ),
+           
             ));
   }
 }

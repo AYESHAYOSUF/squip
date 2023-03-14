@@ -20,8 +20,8 @@ class WelcomeUserView extends StatelessWidget {
                 backgroundColor: whiteColor,
                 items: [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.request_page),
-                      label: "Request Emergency"),
+                      icon: Icon(Icons.access_alarm),
+                      label: "Choose Emergency"),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.emergency), label: "Active Services"),
                   BottomNavigationBarItem(
@@ -31,6 +31,14 @@ class WelcomeUserView extends StatelessWidget {
                   viewModel.onselectItem(index);
                 }),
                 currentIndex: viewModel.myIndex,
+              ),
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: () {
+                  viewModel.logout();
+                },
+                label: Text("Sign out"),
+                focusColor: redColor,
+                backgroundColor: redColor,
               ),
             ));
   }

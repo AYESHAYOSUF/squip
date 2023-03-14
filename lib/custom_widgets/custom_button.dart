@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget customButton({
-  onPress,
+  onTap,
   text,
   color,
   bgColor,
@@ -12,7 +13,7 @@ Widget customButton({
       padding: EdgeInsets.all(12),
     ),
     onPressed: () {
-      onPress;
+      onTap;
     },
     child: Text(
       text,

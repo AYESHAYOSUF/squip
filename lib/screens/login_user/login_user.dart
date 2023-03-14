@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:squip/custom_widgets/app_bar.dart';
+import 'package:squip/custom_widgets/custom_button.dart';
+import 'package:squip/custom_widgets/custom_text_field.dart';
 import 'package:squip/screens/login_user/login_user_view_model.dart';
 import 'package:squip/utils/color_constant.dart';
 import 'package:squip/utils/image_constant.dart';
 import 'package:stacked/stacked.dart';
-
-import '../custom_widgets/custom_button.dart';
-import '../custom_widgets/custom_text_field.dart';
 
 class LoginUserView extends StatelessWidget {
   @override
@@ -14,7 +13,9 @@ class LoginUserView extends StatelessWidget {
     return ViewModelBuilder<LoginUserViewModel>.reactive(
         viewModelBuilder: () => LoginUserViewModel(),
         builder: (context, viewModel, child) => Scaffold(
-                body: Center(
+            appBar: customerAppBar("User Login"),
+            resizeToAvoidBottomInset: false,
+            body: Center(
               child: Column(
                 children: [
                   Padding(padding: EdgeInsets.all(20)),
@@ -42,11 +43,23 @@ class LoginUserView extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(padding: EdgeInsets.all(10)),
-                        customTextField("Email"),
+                        TextFormField(
+                          controller: viewModel.takingName.loginEmailController,
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                          ),
+                        ),
                         SizedBox(
                           height: 40,
                         ),
-                        customTextField("Password"),
+                        TextFormField(
+                          controller:
+                              viewModel.takingName.loginPasswordController,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                          ),
+                          obscureText: true,
+                        ),
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
@@ -56,14 +69,30 @@ class LoginUserView extends StatelessWidget {
                           height: 40,
                         ),
                         Container(
-                          width: double.infinity,
-                          // width: double.infinity,
-                          child: customButton(
-                              onPress: () {},
-                              text: "Login",
-                              color: whiteColor,
-                              bgColor: redColor),
-                        ),
+                            width: double.infinity,
+                            // width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: redColor,
+                                padding: EdgeInsets.all(12),
+                              ),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: whiteColor,
+                                    backgroundColor: redColor),
+                              ),
+                              onPressed: () {
+                                viewModel.SignInUser(
+                                    viewModel.takingName.loginEmailController,
+                                    viewModel
+                                        .takingName.loginPasswordController,
+                                    context);
+                                viewModel.grabbingUserName();
+                                print(viewModel.takingName.name);
+                                // viewModel.moveToWelcomeUser();
+                              },
+                            )),
                         Text(
                           "Don't have an account? Create one",
                           style: TextStyle(color: redColor),
@@ -71,13 +100,13 @@ class LoginUserView extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        Container(
-                            width: double.infinity,
-                            child: customButton(
-                                onPress: () {},
-                                text: "Sign Up",
-                                color: redColor,
-                                bgColor: golden)),
+                        // Container(
+                        //     width: double.infinity,
+                        //     child: customButton(
+                        //         onTap: () {},
+                        //         text: "Sign Up",
+                        //         color: redColor,
+                        //         bgColor: golden)),
                         SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
